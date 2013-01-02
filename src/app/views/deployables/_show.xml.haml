@@ -4,7 +4,7 @@
   %description= deployable.description
   %xml= raw deployable.xml
   %xml_filename= deployable.xml_filename
-  %catalog{:id => deployable.catalog.first.id, :href => api_catalog_url(deployable.catalog.first)}
+  %catalog{:id => deployable.catalogs.first.id, :href => api_catalog_url(deployable.catalog.first)}
   %pool_family{:id => deployable.pool_family.id,
   :href => api_pool_family_url(deployable.pool_family)}
   %images
