@@ -4,9 +4,9 @@
   %description= deployable.description
   %xml= raw deployable.xml
   %xml_filename= deployable.xml_filename
-  %catalog{:id => catalog.id, :href => api_catalog_url(catalog)}
+  %catalog{:id => deployable.catalog.first.id, :href => api_catalog_url(deployable.catalog.first)}
   %pool_family{:id => deployable.pool_family.id,
   :href => api_pool_family_url(deployable.pool_family)}
   %images
-    - images.each do |image|
+    - deployable.get_image_details[1].images.each do |image|
       %image{:id => image.id, :href => api_image_url(image.id)}
