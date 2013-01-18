@@ -1,5 +1,6 @@
 !!! XML
 %deployables
   - deployables.each do |dep|
-    = render :partial => 'show.xml', :locals => {:deployable => dep}
+    = render :partial => 'show.xml',
+    :locals => {:deployable => dep}, :catalog => 
     -#%deployable{:href => deployable_url(dep), :id => dep.id}
