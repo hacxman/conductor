@@ -65,7 +65,7 @@ module Conductor
     require File.dirname(__FILE__) + '/../lib/exceptions'
     require File.dirname(__FILE__) + '/../lib/image'
 
-    config.load_paths += %W(
+    config.load_path += %W(
         {Rails.root}/app/presenters
     )
 
