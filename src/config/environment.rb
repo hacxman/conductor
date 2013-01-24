@@ -18,6 +18,9 @@
 require File.expand_path('../application', __FILE__)
 require 'aeolus_image'
 
+config.load_paths += %W(
+    {Rails.root}/app/presenters
+)
 
 # Initialize the rails application
 Conductor::Application.initialize!
