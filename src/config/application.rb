@@ -65,6 +65,10 @@ module Conductor
     require File.dirname(__FILE__) + '/../lib/exceptions'
     require File.dirname(__FILE__) + '/../lib/image'
 
+    config.load_paths += %W(
+        {Rails.root}/app/presenters
+    )
+
     # Read settings config (accessible at Conductor::Application::SETTINGS_CONFIG)
     ::SETTINGS_CONFIG = YAML.load_file("#{::Rails.root.to_s}/config/settings.yml")
 
