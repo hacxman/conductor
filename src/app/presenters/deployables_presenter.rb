@@ -1,6 +1,6 @@
 module DeployablesP
   module ShowP
-    def wui(params, s)
+    def self.wui(params, s)
       s.instance_eval do
       @deployable = Deployable.find(params[:id])
       @catalog = params[:catalog_id].present? ? Catalog.find(params[:catalog_id]) : @deployable.catalogs.first
