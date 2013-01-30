@@ -1,39 +1,42 @@
 module DeployablesP
   module ShowP
-    def self.wui(params, s)
-      s.instance_eval do
-      @deployable = Deployable.find(params[:id])
-      @catalog = params[:catalog_id].present? ? Catalog.find(params[:catalog_id]) : @deployable.catalogs.first
-      require_privilege(Privilege::VIEW, @deployable)
-      save_breadcrumb(polymorphic_path([@catalog, @deployable]), @deployable.name)
-      @providers = Provider.all
-      @catalogs_options = Catalog.list_for_user(current_session, current_user,
+    def self.wui(params)
+      Res = Struct.new(:deployable, :catalog, :providers, :catalogs_options
+                ,:images_details, :missing_images, :deployable_errors
+                ,:image_status, :pushed_count)
+
+      deployable = Deployable.find(params[:id])
+      catalog = params[:catalog_id].present? ? Catalog.find(params[:catalog_id]) : deployable.catalogs.first
+      require_privilege(Privilege::VIEW, deployable)
+      save_breadcrumb(polymorphic_path([catalog, deployable]), deployable.name)
+      providers = Provider.all
+      catalogs_options = Catalog.list_for_user(current_session, current_user,
                                                 Privilege::MODIFY).select do |c|
-        !@deployable.catalogs.include?(c) and
-          @deployable.catalogs.first.pool_family == c.pool_family
+        !deployable.catalogs.include?(c) and
+          deployable.catalogs.first.pool_family == c.pool_family
       end
 
-      if @catalog.present?
-        add_permissions_inline(@deployable, '', {:catalog_id => @catalog.id})
+      if catalog.present?
+        add_permissions_inline(deployable, '', {:catalog_id => catalog.id})
       else
-        add_permissions_inline(@deployable)
+        add_permissions_inline(deployable)
       end
 
-      @images_details, images, @missing_images, @deployable_errors = @deployable.get_image_details
-      flash.now[:error] = @deployable_errors unless @deployable_errors.empty?
+      images_details, images, missing_images, deployable_errors = deployable.get_image_details
+      flash.now[:error] = deployable_errors unless deployable_errors.empty?
 
-      if @missing_images.empty?
-        @image_status = []
-        @pushed_count = 0
+      if missing_images.empty?
+        image_status = []
+        pushed_count = 0
 
-        @deployable.pool_family.provider_accounts.includes(:provider).
+        deployable.pool_family.provider_accounts.includes(:provider).
                     where('providers.enabled' => true).each do |provider_account|
           deltacloud_driver =
             provider_account.provider.provider_type.deltacloud_driver
-          build_status = @deployable.build_status(images, provider_account)
-          @pushed_count += 1 if (build_status == :pushed)
+          build_status = deployable.build_status(images, provider_account)
+          pushed_count += 1 if (build_status == :pushed)
 
-          @image_status << {
+          image_status << {
             :deltacloud_driver => deltacloud_driver,
             :provider_account_label => provider_account.label,
             :provider_name => provider_account.provider.name,
@@ -42,14 +45,24 @@ module DeployablesP
               t("deployables.show.build_statuses_descriptions.#{build_status}")
           }
 
-          @image_status.sort_by do |image_status_for_account|
+          image_status.sort_by do |image_status_for_account|
             image_status_for_account[:deltacloud_driver]
           end
         end
       end
-      end
 
+      result = Res.new
+      result.deployable = deployable
+      result.catalog = catalog
+      result.providers = providers
+      result.catalogs_options = catalogs_options
+      result.images_details = images_details
+      result.missing_images = missing_images
+      result.deployable_errors = deployable_errors
+      result.image_status = image_status
+      result.pushed_count = pushed_count
 
+      result
     end
 
     def api(params)
