@@ -93,7 +93,9 @@ class DeployablesController < ApplicationController
   def show
     respond_to do |format|
       format.html do
-        DeployablesP::ShowP::wui(params, self)
+        result = DeployablesP::ShowP::wui(params)
+        
+        
       end
       format.json do
         render :json => { :image_status => @image_status }
