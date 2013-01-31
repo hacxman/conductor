@@ -95,7 +95,17 @@ class DeployablesController < ApplicationController
       format.html do
         result = DeployablesP::ShowP::wui(params)
         
+        @deployable = result.deployable
+        @catalog = result.catalog
+        @providers = result.providers
+        @catalogs_options = result.catalogs_options
+        @images_details = result.images_details
+        @missing_images = result.missing_images
+        @deployable_errors = result.deployable_errors
+        @image_status = result.image_status
+        @pushed_count = result.pushed_count
         
+        render :partial => 'show', :locals => result
       end
       format.json do
         render :json => { :image_status => @image_status }
