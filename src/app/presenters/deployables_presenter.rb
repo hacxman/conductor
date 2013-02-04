@@ -1,4 +1,13 @@
-module DeployablesP
+class RestrictedPresenter
+  class << self
+    def included(base)
+      p base
+      p 'kokot'
+    end
+  end
+end
+
+module DeployablesP << RestrictedPresenter
   module ShowP
     Res = Struct.new(:deployable, :catalog, :providers, :catalogs_options,
                      :images_details, :missing_images, :deployable_errors,
