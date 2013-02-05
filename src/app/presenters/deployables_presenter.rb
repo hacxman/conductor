@@ -7,8 +7,10 @@ module RestrictedPresenter
   end
 end
 
-module DeployablesP < RestrictedPresenter
+module DeployablesP
   module ShowP
+    include RestrictedPresenter
+
     Res = Struct.new(:deployable, :catalog, :providers, :catalogs_options,
                      :images_details, :missing_images, :deployable_errors,
                      :image_status, :pushed_count)
