@@ -94,7 +94,7 @@ class DeployablesController < ApplicationController
   def show
     respond_to do |format|
       format.html do
-        result = DeployablesP::ShowP::wui(params)
+        result = wui(params)
         
         @deployable = result.deployable
         @catalog = result.catalog
