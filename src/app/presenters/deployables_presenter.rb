@@ -14,7 +14,7 @@ module DeployablesP
     Res = Struct.new(:deployable, :catalog, :providers, :catalogs_options,
                      :images_details, :missing_images, :deployable_errors,
                      :image_status, :pushed_count)
-    def self.wui(params)
+    def wui(params)
 
       deployable = Deployable.find(params[:id])
       catalog = params[:catalog_id].present? ? Catalog.find(params[:catalog_id]) : deployable.catalogs.first
