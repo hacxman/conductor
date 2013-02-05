@@ -106,7 +106,7 @@ class DeployablesController < ApplicationController
         @image_status = result.image_status
         @pushed_count = result.pushed_count
         
-        render :partial => 'show', :locals => result
+        #render :partial => 'show', :locals => result
       end
       format.json do
         render :json => { :image_status => @image_status }
