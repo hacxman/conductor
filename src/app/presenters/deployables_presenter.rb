@@ -1,4 +1,4 @@
-class RestrictedPresenter
+module RestrictedPresenter
   class << self
     def included(base)
       p base
