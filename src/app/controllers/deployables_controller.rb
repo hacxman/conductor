@@ -17,6 +17,7 @@ require 'uri'
 
 class DeployablesController < ApplicationController
   before_filter :require_user
+  include DeployablesP::ShowP
 
   def index
     clear_breadcrumbs
