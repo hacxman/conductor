@@ -13,6 +13,7 @@ module RestrictedPresenter
             alias_method "__#{fname.to_s}".to_sym, fname
             define_method fname do
               p "olol"
+              raise "TYYYY"
             end
           end
         end
