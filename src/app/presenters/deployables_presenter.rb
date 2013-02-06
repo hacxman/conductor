@@ -7,6 +7,16 @@ module RestrictedPresenter
         def self.included(base)
           p base
           p 'jebem ti rit'
+          # wrap it!
+          to_wrap = instance_methods - ancestors[1].instance_methods
+          to_wrap.each do |fname|
+            alias_method "__#{fname.to_s}".to_sym, fname
+            base.class_eval do
+              define_method fname do
+                p "olol"
+              end
+            end
+          end
         end
       end
     end
