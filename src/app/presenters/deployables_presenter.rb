@@ -3,7 +3,7 @@ module RestrictedPresenter
     def included(base)
       p base
       p 'kokot'
-      class_eval base do
+      base.class_eval do
         define_method :included do
           p base
           p 'jebem ti rit'
