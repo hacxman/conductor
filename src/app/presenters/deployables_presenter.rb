@@ -11,7 +11,7 @@ module RestrictedPresenter
           to_wrap = instance_methods - ancestors[1].instance_methods
           to_wrap.each do |fname|
             alias_method "__#{fname.to_s}".to_sym, fname
-            define_method fname do
+            define_method fname do |lampa|
               p "olol"
               raise "TYYYY"
             end
