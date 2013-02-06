@@ -95,7 +95,7 @@ class DeployablesController < ApplicationController
     respond_to do |format|
       format.html do
         result = wui(params)
-        
+
         @deployable = result.deployable
         @catalog = result.catalog
         @providers = result.providers
@@ -105,7 +105,7 @@ class DeployablesController < ApplicationController
         @deployable_errors = result.deployable_errors
         @image_status = result.image_status
         @pushed_count = result.pushed_count
-        
+
         #render :partial => 'show', :locals => result
       end
       format.json do
