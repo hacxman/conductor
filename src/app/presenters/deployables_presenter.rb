@@ -4,7 +4,7 @@ module RestrictedPresenter
       p base
       p 'kokot'
       base.class_eval do
-        def self.included
+        define_method :included do
           p base
           p 'jebem ti rit'
         end
