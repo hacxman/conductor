@@ -23,14 +23,14 @@ module RestrictedPresenter
 
               slate = blank_slate.new
               vars_to_copy.each do |var|
-                blank_slate.instance_variable_set(var, instance_variable_get(var))
+                slate.instance_variable_set(var, instance_variable_get(var))
               end
 
               controller_self = self
 
               mets_to_copy = [:require_privilege]
               mets_to_copy.each do |m|
-                slate.send :define_method, m do |*p, &b|
+                blank_slate.send :define_method, m do |*p, &b|
                   controller_self.send m, p, b
                 end
               end
