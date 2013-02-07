@@ -20,7 +20,7 @@ module RestrictedPresenter
 
               vars_to_copy = [:@session]
 
-              slate = BlankSlate.new
+              slate = blank_slate.new
               vars_to_copy.each do |var|
                 slate.instance_variable_set(var, instance_variable_get(var))
               end
