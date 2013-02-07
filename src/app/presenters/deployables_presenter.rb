@@ -15,6 +15,7 @@ module RestrictedPresenter
               blank_slate = Class.new do
                 instance_methods.each do |m|
                   undef_method m unless m.to_s =~ /method_missing|respond_to?|^__|^instance_variable|^define_method/
+                  puts "undef_method '#{m.to_s}'" unless m.to_s =~ /method_missing|respond_to?|^__|^instance_variable|^define_method/
                 end
               end
 
