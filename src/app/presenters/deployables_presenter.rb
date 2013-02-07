@@ -11,9 +11,33 @@ module RestrictedPresenter
           to_wrap = instance_methods - ancestors[1].instance_methods
           to_wrap.each do |fname|
             alias_method "__#{fname.to_s}".to_sym, fname
-            define_method fname do |lampa|
-              p "olol"
-              raise "TYYYY"
+            define_method fname do |*lampa, &block|
+              class BlankSlate
+                instance_methods.each do |m|
+                  undef_method m unless m.to_s =~ /method_missing|respond_to?|^__/
+                end
+              end
+
+              vars_to_copy = [:@session]
+
+              slate = BlankSlate.new
+              vars_to_copy.each do |var|
+                slate.instance_variable_set(var, instance_variable_get(var))
+              end
+
+              controller_self = self
+
+              mets_to_copy = [:require_privilege]
+              mets_to_copy.each do |m|
+                slate.define_method m do |*p, &b|
+                  controller_self.send m, p, b
+                end
+              end
+
+              slate.instance_eval do
+                controller_self.send "__#{fname}".to_sym, lampa, block
+              end
+
             end
           end
         end
