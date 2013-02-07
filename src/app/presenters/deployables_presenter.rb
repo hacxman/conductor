@@ -30,7 +30,7 @@ module RestrictedPresenter
 
               mets_to_copy = [:require_privilege]
               mets_to_copy.each do |m|
-                slate.define_method m do |*p, &b|
+                slate.send :define_method, m do |*p, &b|
                   controller_self.send m, p, b
                 end
               end
