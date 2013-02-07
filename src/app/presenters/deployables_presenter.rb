@@ -23,7 +23,7 @@ module RestrictedPresenter
 
               slate = blank_slate.new
               vars_to_copy.each do |var|
-                slate.instance_variable_set(var, instance_variable_get(var))
+                blank_slate.instance_variable_set(var, instance_variable_get(var))
               end
 
               controller_self = self
