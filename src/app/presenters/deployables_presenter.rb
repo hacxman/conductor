@@ -14,7 +14,7 @@ module RestrictedPresenter
             define_method fname do |*lampa, &block|
               blank_slate = Class.new do
                 instance_methods.each do |m|
-                  undef_method m unless m.to_s =~ /method_missing|respond_to?|^__|^instance_variable/
+                  undef_method m unless m.to_s =~ /method_missing|respond_to?|^__|^instance_variable|^define_method/
                 end
               end
 
