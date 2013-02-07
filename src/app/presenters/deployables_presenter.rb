@@ -12,7 +12,7 @@ module RestrictedPresenter
           to_wrap.each do |fname|
             alias_method "__#{fname.to_s}".to_sym, fname
             define_method fname do |*lampa, &block|
-              class BlankSlate
+              blank_slate = Class.new do
                 instance_methods.each do |m|
                   undef_method m unless m.to_s =~ /method_missing|respond_to?|^__/
                 end
